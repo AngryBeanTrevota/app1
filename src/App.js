@@ -22,10 +22,8 @@ const Content = (props) => {
   console.log(props)
   return(
     <div>
-    <Part part={props.part1} exercises={props.exercises1}/>
-    <Part part={props.part2} exercises={props.exercises2}/>
-    <Part part={props.part3} exercises={props.exercises3}/>
-</div>
+      {props.parts.map(value => <Part part={value.name} exercises={value.exercises}/>)}
+    </div>
   )
 }
 
@@ -58,9 +56,8 @@ const App = () => {
   return (
     <div>
       <Header course={course}/>
-      <Content part1={parts[0].name} part2={parts[1].name} part3={parts[2].name}
-       exercises1={parts[0].exercises} exercises2={parts[1].exercises} exercises3={parts[2].exercises}/>
-      <Total exercises1={parts[0].exercises} exercises2={parts[1].exercises} exercises3={parts[2].exercises}/>
+      <Content parts={parts}/>
+      <Total parts={parts}/>
     </div>
   )
 }
