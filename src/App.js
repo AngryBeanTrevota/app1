@@ -29,9 +29,13 @@ const Content = (props) => {
 
 const Total = (props) => {
   console.log(props)
+  let soma = 0
+  props.parts.forEach(element => {
+    soma = soma + element.exercises
+  });
   return(
     <div>
-      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+      <p>Number of exercises {soma}</p>
     </div>
   )
 }
