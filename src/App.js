@@ -4,6 +4,10 @@ const Button = (props) => (
   <button onClick={props.handleClick}>{props.text}</button>
 )
 
+const Display = (props) => (
+  <p>{props.text} {props.value}</p>
+)
+
 const App = () => {
   // Save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -22,9 +26,9 @@ const App = () => {
       <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
       <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
       <h1>Statistics</h1>
-      {good + ' '}
-      {neutral + ' '}
-      {bad}
+      <Display text='good' value={good}/>
+      <Display text='neutral' value={neutral}/>
+      <Display text='bad' value={bad}/>
     </div>
   )
 }
