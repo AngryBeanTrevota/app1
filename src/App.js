@@ -5,7 +5,7 @@ const Button = (props) => (
 )
 
 const Display = (props) => (
-  <p>{props.text} {props.value}</p>
+  <p>{props.text} {props.value} {props.textAfter}</p>
 )
 
 const App = () => {
@@ -26,9 +26,12 @@ const App = () => {
       <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
       <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
       <h1>Statistics</h1>
-      <Display text='good' value={good}/>
-      <Display text='neutral' value={neutral}/>
-      <Display text='bad' value={bad}/>
+      <Display text='good' value={good} textAfter=''/>
+      <Display text='neutral' value={neutral} textAfter=''/>
+      <Display text='bad' value={bad} textAfter=''/>
+      <Display text='all' value={good + neutral + bad} textAfter=''/>
+      <Display text='avarage' value={(good - bad) / (good + neutral + bad)} textAfter=''/>
+      <Display text='positive' value={(good / (good + neutral + bad)) * 100} textAfter='%'/>
     </div>
   )
 }
