@@ -32,15 +32,31 @@ const App = () => {
     setValue(value + 1);
   }
 
-  return (
-    <div>
+  if(good !=0 || neutral != 0 || bad != 0)
+  {
+    return(
+      <div>
       <h1>Give FeedBack</h1>
       <Button handleClick={() => increaseValue(good, setGood)} text="good"/>
       <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
       <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
       <Statistics good={good} neutral={neutral} bad={bad} />
-    </div>
-  )
+      </div>
+    )
+  }
+  else
+  {
+    return(
+      <div>
+      <h1>Give FeedBack</h1>
+      <Button handleClick={() => increaseValue(good, setGood)} text="good"/>
+      <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
+      <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
+      <h1>Statistics</h1>
+      <p>No feedback given</p>
+      </div>
+    )
+  }
 }
 
 
