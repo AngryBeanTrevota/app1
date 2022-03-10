@@ -5,19 +5,26 @@ const Button = (props) => (
 )
 
 const Display = (props) => (
-  <p>{props.text} {props.value} {props.textAfter}</p>
+  <tr>
+    <th>{props.text}</th>
+    <td>{props.value} {props.textAfter}</td>
+  </tr>
 )
 
 const Statistics = ( {good, neutral, bad} ) => {
   return (
     <div>
       <h1>Statistics</h1>
-      <Display text='good' value={good} textAfter=''/>
-      <Display text='neutral' value={neutral} textAfter=''/>
-      <Display text='bad' value={bad} textAfter=''/>
-      <Display text='all' value={good + neutral + bad} textAfter=''/>
-      <Display text='avarage' value={(good - bad) / (good + neutral + bad)} textAfter=''/>
-      <Display text='positive' value={(good / (good + neutral + bad)) * 100} textAfter='%'/>
+      <table>
+        <tbody>
+        <Display text='good' value={good} textAfter=''/>
+        <Display text='neutral' value={neutral} textAfter=''/>
+        <Display text='bad' value={bad} textAfter=''/>
+        <Display text='all' value={good + neutral + bad} textAfter=''/>
+        <Display text='avarage' value={(good - bad) / (good + neutral + bad)} textAfter=''/>
+        <Display text='positive' value={(good / (good + neutral + bad)) * 100} textAfter='%'/>
+        </tbody>
+      </table>
     </div>
   )}
 
