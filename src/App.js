@@ -1,31 +1,140 @@
 import { useState } from 'react'
 
-const App = () => {
+const Button = (props) => (
+  <button onClick={props.handleClick}>{props.text}</button>
+)
 
-  function getRandomArbitrary(min, max) {  
-      console.log(Math.floor(Math.random() * (max - min) + min));
-      return Math.floor(Math.random() * (max - min) + min);
-  }
+const Display = (props) => (
+  <tr>
+    <th>{props.text}</th>
+    <td>{props.value} {props.textAfter}</td>
+  </tr>
+)
 
-  const anecdotes = [
-    'If it hurts, do it more often',
-    'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-    'Premature optimization is the root of all evil.',
-    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
-  ]
-   
-  const [selected, setSelected] = useState(0)
-
-
+const Statistics = ( {good, neutral, bad} ) => {
   return (
     <div>
-      <button onClick={() => setSelected(getRandomArbitrary(0, 6))}>next anecdote</button>
-      <p>{anecdotes[selected]}</p>
+      <h1>Statistics</h1>
+      <table>
+        <tbody>
+        <Display text='good' value={good} textAfter=''/>
+        <Display text='neutral' value={neutral} textAfter=''/>
+        <Display text='bad' value={bad} textAfter=''/>
+        <Display text='all' value={good + neutral + bad} textAfter=''/>
+        <Display text='avarage' value={(good - bad) / (good + neutral + bad)} textAfter=''/>
+        <Display text='positive' value={(good / (good + neutral + bad)) * 100} textAfter='%'/>
+        </tbody>
+      </table>
+    </div>
+  )}
+
+const App = () => {
+  // Save clicks of each button to its own state                 
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const increaseValue = (value, setValue) => {
+    console.log(value);
+    setValue(value + 1);
+  }
+
+  if(good !=0 || neutral != 0 || bad != 0)
+  {
+    return(
+      <div>
+      <h1>Give FeedBack</h1>
+      <Button handleClick={() => increaseValue(good, setGood)} text="good"/>
+      <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
+      <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
+      <Statistics good={good} neutral={neutral} bad={bad} />
+      </div>
+    )
+  }
+  else
+  {
+    return(
+      <div>
+      <h1>Give FeedBack</h1>
+      <Button handleClick={() => increaseValue(good, setGood)} text="good"/>
+      <Button handleClick={() => increaseValue(neutral, setNeutral)} text="neutral"/>
+      <Button handleClick={() => increaseValue(bad, setBad)} text="bad"/>
+      <h1>Statistics</h1>
+      <p>No feedback given</p>
+      </div>
+    )
+  }
+}
+
+
+/*
+const Header = (props) => {
+  console.log(props)
+  return (
+    <div>
+      <h1>{props.course.name}</h1>
     </div>
   )
 }
+
+const Part = (props) => {   
+  console.log(props)
+  return(
+    <div>
+      <p>{props.part} {props.exercises}</p>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props)
+  return(
+    <div>
+      {props.course.parts.map(value => <Part part={value.name} exercises={value.exercises}/>)}
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props)
+  let soma = 0
+  props.course.parts.forEach(element => {
+    soma = soma + element.exercises
+  });
+  return(
+    <div>
+      <p>Number of exercises {soma}</p>
+    </div>
+  )
+}
+
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+
+  return (
+    <div>
+      <Header course={course}/>
+      <Content course={course}/>
+      <Total course={course}/>
+    </div>
+  )
+}
+*/
 
 export default App
