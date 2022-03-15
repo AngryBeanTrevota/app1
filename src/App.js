@@ -35,13 +35,15 @@ const App = () => {
     return newArray;
   }
 
-
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={() => setSelected(getRandomArbitrary(0, 6))}>next anecdote</button>
       <button onClick={() => setVotes(handleVote(selected))}>vote</button>
+      <h1>Anecdote with the most votes</h1>
+      <p>{anecdotes[votes.indexOf(Math.max.apply(null, votes))]}</p>
     </div>
   )
 }
