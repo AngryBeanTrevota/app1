@@ -20,11 +20,28 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(7))
 
+  const handleVote = index => {
+    const newArray = votes.map((item, j) => {
+      if(j === index)
+      {
+        return item + 1;
+      } 
+      else
+      {
+        return item;
+      }
+    });
+
+    return newArray;
+  }
+
 
   return (
     <div>
-      <button onClick={() => setSelected(getRandomArbitrary(0, 6))}>next anecdote</button>
       <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={() => setSelected(getRandomArbitrary(0, 6))}>next anecdote</button>
+      <button onClick={() => setVotes(handleVote(selected))}>vote</button>
     </div>
   )
 }
