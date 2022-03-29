@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Header = (props) => {
-  console.log(props)
   return (
     <div>
       <h1>{props.course.name}</h1>
@@ -10,7 +9,6 @@ const Header = (props) => {
 }
 
 const Part = (props) => {   
-  console.log(props)
   return(
     <div>
       <p>{props.part} {props.exercises}</p>
@@ -19,7 +17,6 @@ const Part = (props) => {
 }
 
 const Content = (props) => {
-  console.log(props)
   return(
     <div>
       <ul>
@@ -30,11 +27,7 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
-  console.log(props)
-  let soma = 0
-  props.course.parts.forEach(element => {
-    soma = soma + element.exercises
-  });
+  const soma = props.course.parts.reduce( (total, currentValue) => total + currentValue.exercises, 0)
   return(
     <div>
       <p>Number of exercises {soma}</p>
