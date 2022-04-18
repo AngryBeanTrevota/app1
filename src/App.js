@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const Filter = ({input, onChangeFunction}) => {
+  return(
+    <div>
+      filter shown with: <input value={input} onChange={onChangeFunction}/>
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456'},
@@ -57,11 +65,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>debug: {newName}</div>
+
+      <Filter input={filterInput} onChangeFunction={handleFilterChange}/>
+
       <form>
-        <div>
-        filter shown with: <input value={filterInput} onChange={handleFilterChange}/>
-        </div>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
         </div>
@@ -72,6 +79,8 @@ const App = () => {
           <button type="submit" onClick={addPerson}>add</button>
         </div>
       </form>
+
+
       <h2>Numbers</h2>
       {
         filteredList.map((person, i) => <div key={persons.length + i}>{person.name}:  {person.number}</div> ) // Somei com o índice porque senão os dois primeiros tem o mesmo índice e dá erro
