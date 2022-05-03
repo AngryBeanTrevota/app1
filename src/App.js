@@ -1,9 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Filter = ({input, onChangeFunction}) => {
   return(
     <div>
       filter shown with: <input value={input} onChange={onChangeFunction}/>
+    </div>
+  )
+}
+
+const Form = ({newName, handleNameChange, newNumber, handleNumberChange, addPerson}) => {
+  return(
+    <form>
+      <div>
+        name: <input value={newName} onChange={handleNameChange}/>
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={handleNumberChange}/>
+      </div>
+      <div>
+        <button type="submit" onClick={addPerson}>add</button>
+      </div>
+    </form>
+  )
+}
+
+const Numbers = ({filteredList, persons}) => {
+  return(
+    <div>
+      <h2>Numbers</h2>
+      {
+        filteredList.map((person, i) => <div key={persons.length + i}>{person.name}:  {person.number}</div> ) 
+        // Somei com o índice porque senão os dois primeiros tem o mesmo índice e dá erro
+      }
     </div>
   )
 }
@@ -21,33 +49,32 @@ const App = () => {
   const [filterInput, setFilterInput] = useState('')
   const [filteredList, setFilteredList] = useState(persons)
 
+  useEffect(() => {
+    if(filterInput.trim())
+    {
+      setFilteredList(persons.filter((person) => person.name.toLowerCase().includes(filterInput.toLowerCase())))
+    }
+    else
+    {
+      setFilteredList(persons)
+    } 
+  }, [filterInput, persons])
+
   const handleNameChange = (event) => {
     //console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-    //console.log(event.target.value)
     setNewNumber(event.target.value)
   }
 
-  const handleFilterChange = (event) => {             // o filterInput ta diferente do target e eu nn sei pq
+  const handleFilterChange = (event) => {  
     setFilterInput(event.target.value)
-    console.log("filter input:", filterInput)
-    console.log("event target:", event.target.value)
-    if(event.target.value.trim())
-    {
-      setFilteredList(persons.filter((person) => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
-    }
-    else
-    {
-      setFilteredList(persons)
-    } 
   }
 
-  const addPerson = (event) => {
+  const addPerson = (event) => {     // ERRO AQUI! Usar o tal do useEffect
     event.preventDefault()
-    //console.log("persons: ", persons)
     //console.log("new name: ", newName)
     if(persons.find(element => element.name === newName.trim()))
     {
@@ -56,11 +83,12 @@ const App = () => {
     else
     {
       const nameObject = { name: newName , number: newNumber}
-      setPersons(persons.concat(nameObject))
+      setPersons([...persons, nameObject])
       setNewName("")
       setNewNumber("")
     }
   }
+
 
   return (
     <div>
@@ -68,23 +96,10 @@ const App = () => {
 
       <Filter input={filterInput} onChangeFunction={handleFilterChange}/>
 
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit" onClick={addPerson}>add</button>
-        </div>
-      </form>
+      <Form newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} 
+      handleNumberChange={handleNumberChange} addPerson={addPerson} />
 
-
-      <h2>Numbers</h2>
-      {
-        filteredList.map((person, i) => <div key={persons.length + i}>{person.name}:  {person.number}</div> ) // Somei com o índice porque senão os dois primeiros tem o mesmo índice e dá erro
-      }
+      <Numbers filteredList={filteredList} persons={persons}/>
     </div>
   )
 }
