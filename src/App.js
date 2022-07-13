@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Filter = ({input, onChangeFunction}) => {
+/* const Filter = ({input, onChangeFunction}) => {
   return(
     <div>
       filter shown with: <input value={input} onChange={onChangeFunction}/>
@@ -103,6 +103,120 @@ const App = () => {
       handleNumberChange={handleNumberChange} addPerson={addPerson} />
 
       <Numbers filteredList={filteredList} persons={persons}/>
+    </div>
+  )
+} */
+
+const Pesquisa = ({pesquisa, atualizaPesquisa}) => {
+  return(
+    <div>
+      find countries: <input value={pesquisa} onChange={atualizaPesquisa}/>
+    </div>
+  )
+}
+
+const ViewPais = ({pais, linguas}) => {
+  return(
+    <div>
+    <h1>{pais.name.common}</h1>
+
+    <p>capital: {pais.capital}</p>
+    <p>area: {pais.area}</p>
+    
+    <h3>Languages:</h3>
+    <ul>
+      {Object.keys(linguas).map(key => <li key={key}>{linguas[key]}</li>)}                               
+    </ul>
+
+    <img src={pais.flags.png}></img>
+  </div>
+  )
+}
+
+const Paises = ({paises, linguas, setLinguas, botaoMostrar, displayPais, setDisplayPais}) => {
+  if(paises.length > 1){
+    console.log("maior que 1")
+    return(
+      <div>
+        {displayPais}
+        {paises.map((pais, i) => <div key={i}>
+          {pais.name.common}<button onClick={() => setDisplayPais(botaoMostrar(pais))}>show</button>
+          </div>)}  
+      </div>
+    )
+  }
+  else
+  {
+    if(paises.length == 0)
+    {
+      return(
+        <div></div>
+      )
+    }
+    else
+    {
+      console.log("apenas 1")
+      setLinguas(paises[0].languages)
+      console.log(linguas)
+      return(
+        <div>
+          <ViewPais pais={paises[0]} linguas={linguas}/>
+        </div>
+      )
+    }
+  }
+}
+
+const App = () => {
+  const [pesquisa, setPesquisa] = useState("")
+  const [paises, setPaises] = useState([])
+  const [textoAviso, setTextoAviso] = useState("")
+  const [linguas, setLinguas] = useState([])
+  const [displayPais, setDisplayPais] = useState("")
+
+  const atualizaPesquisa = (event) => {
+    setPesquisa(event.target.value)
+    setDisplayPais("")
+    console.log(event.target.value)
+  }
+
+  const botaoMostrar = (pais) => {                                  //ERRO AQUI
+    setLinguas(pais.languages)
+    console.log(linguas)
+    return(
+      <div>
+        <ViewPais pais={pais} linguas={linguas}/>
+      </div>
+    )
+  }
+
+  useEffect(() => {
+    if(pesquisa != "")
+    {
+      axios
+      .get(`https://restcountries.com/v3.1/name/${pesquisa}`)
+      .then(response => {
+        console.log(response.data);
+        if(response.data.length > 10)
+        {
+          setPaises([])
+          setTextoAviso("Too many matches, specify another filter.")
+        }
+        else
+        {
+          setPaises(response.data)
+          setTextoAviso("")
+        }
+      })
+    }
+  }, [pesquisa, setPesquisa])
+
+  return(
+    <div>
+      <Pesquisa pesquisa={pesquisa} atualizaPesquisa={atualizaPesquisa}/>
+      <p>{textoAviso}</p>
+      <Paises paises={paises} linguas={linguas} setLinguas={setLinguas} botaoMostrar={botaoMostrar} 
+      displayPais={displayPais} setDisplayPais={setDisplayPais}/>          
     </div>
   )
 }
